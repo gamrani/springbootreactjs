@@ -3,6 +3,10 @@ import BackToBoard from './BackToBoard';
 import ProjectSummaryInput from './FormElements/ProjectSummaryInput';
 import ProjectAcceptanceInput from './FormElements/ProjectAcceptanceInput';
 import ProjectStatusSelect from './FormElements/ProjectStatusSelect';
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {addProjectTask} from '../../Redux/Actions/projectTaskActions'
+import classnames from "classnames";
 
 class AddProjectTask extends Component {
 
@@ -26,8 +30,8 @@ class AddProjectTask extends Component {
         acceptanceCriteria: this.state.acceptanceCriteria,
         status:this.state.status
       }
-
-      console.log(newProjectTask);
+    this.props.addProjectTask(newProjectTask,this.props.history);
+     
   }
 
   render() {
@@ -52,4 +56,14 @@ class AddProjectTask extends Component {
     )
   }
 }
-export default AddProjectTask;
+
+addProjectTask.propTypes={
+    AddProjectTask: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired
+}
+
+const mapStateToPros = state =>({
+    errors: state.errors
+})
+
+export default connect(mapStateToPros,{addProjectTask}) (AddProjectTask);
